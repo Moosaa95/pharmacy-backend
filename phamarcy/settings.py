@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import cloudinary
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts',
      "corsheaders",
+     "cloudinary"
     
 ]
 
@@ -133,6 +136,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -342,3 +347,10 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+cloudinary.config( 
+  cloud_name = os.getenv("CLOUD_NAME", "dr7horthg"),
+  api_key = os.getenv("CLOUD_API_KEY", "373118866994752"),
+  api_secret = os.getenv("CLOUD_SECRET_KEY", "j6vH5WtMF0_wQgSGzqikX-HOLxs"), 
+)
+

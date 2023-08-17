@@ -8,7 +8,16 @@ from accounts.views import (RegisterUser,
                             GetPharmacies,
                             GetStates,
                             GetPharmacy,
-                            GetPharmacyDrugs
+                            GetPharmacyDrugs,
+                            GetBestDrugs,
+                            CreateOrderAPIView, 
+                            SavePrescription,
+                            UpdateProfileAPIView,
+                            GetProfileAPIView,
+                            GetUser,
+                            GetOrder,
+                            ChangePasswordAPIView,
+                            GetDrug
                             )
 
 
@@ -29,4 +38,13 @@ urlpatterns = [
     path('pharmacy/', GetPharmacy.as_view(), name='pharmacy'),
     path('pharmacydrugs/', GetPharmacyDrugs.as_view(), name='pharmacydrugs'),
     path('states/', GetStates.as_view(), name='states'),
+    path('best-deal/', GetBestDrugs.as_view(), name='deal'),
+    path('create-order/', CreateOrderAPIView.as_view(), name='create-order'),
+    path('save-prescription/', SavePrescription.as_view(), name='save-prescription'),
+    path('update-profile/', UpdateProfileAPIView.as_view(), name='update-profile'),
+    path('get-profile/', GetUser.as_view(), name='get-profile'),
+    path('get-order/', GetOrder.as_view(), name='get-order'),
+    path('get-drug/', GetDrug.as_view(), name='get-drug'),
+    path('change-password/', ChangePasswordAPIView.as_view(), name='change-password'),
+
 ]

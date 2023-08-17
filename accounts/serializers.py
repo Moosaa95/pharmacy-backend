@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import UserBase, Profile
+from accounts.models import State, UserBase, Profile
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(style={'input_type':'password'}, write_only=True, validators=[validate_password], required=True)
     password2 = serializers.CharField(style={'input_type':'password'}, write_only=True, required=True)
-    # business_name  = serializers.CharField(max_length=100, required=False, allow_blank=True)
+    state  = serializers.CharField(max_length=100, required=False, allow_blank=True)
 
 
     class Meta:
@@ -31,7 +31,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'usertype',
             'password',
             'password2',
-            'business_name'
+            'state'
+            # 'business_name'
         ]
 
     def validate(self, attrs):
@@ -48,14 +49,17 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print('validated')
         print(validated_data)
-        # business_name = validated_data.pop('business_name', '') 
+        # business_name = validated_data.pop('business_name', '')
+        state_id = validated_data["state"]
+        state = State.objects.get(id=state_id)
+        print('this is the state', state)
         user = UserBase.objects.create(
             user_name = validated_data['user_name'],
             email = validated_data['email'],
-            usertype = validated_data['usertype'],
-            business_name = validated_data['business_name'],
-            state = validated_data["state"],
-            lga = validated_data["lga"],
+            usertype = validated_data.get('usertype', 'user'),
+            # business_name = validated_data['business_name'],
+            state = state,
+            # lga = validated_data["lga"],
 
         )
         user.set_password(validated_data['password'])
@@ -65,7 +69,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         profile = Profile.objects.create(
             userbase=user,
-            business_name=user.business_name if user.usertype == "pharmacy" else "",  # Set the extracted business_name value here
+            # business_name=user.business_name if user.usertype == "pharmacy" else "",  # Set the extracted business_name value here
             state=user.state, 
             lga=user.lga
         )
