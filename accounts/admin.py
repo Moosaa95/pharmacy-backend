@@ -1,10 +1,13 @@
 from django.contrib import admin
 from .models import (UserBase, Profile, Category,
                       Drug,  State, LGA, Order, Prescription)
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Register your models here.
 
-@admin.register(UserBase)
+@admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['user_name', 'email']
 

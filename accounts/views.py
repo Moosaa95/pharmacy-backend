@@ -145,9 +145,12 @@ class ActivateAccount(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, uidb64, token):
+        print('token', token, uidb64)
         try:
             uid = urlsafe_base64_decode(uidb64).decode("utf-8")
+            print(uid, 'uid')
             user = UserBase.objects.get(pk=uid)
+            print(user, 'this')
         except (TypeError, ValueError, OverflowError, UserBase.DoesNotExist):
             user = None
 
@@ -156,12 +159,12 @@ class ActivateAccount(APIView):
             # add profile verifed later
             user.save()
             return Response(
-                {"message": "Account activated successfully."},
+                {"message": "Account activated successfully.", "status":True},
                 status=status.HTTP_200_OK,
             )
         else:
             return Response(
-                {"message": "Invalid activation link."},
+                {"message": "Invalid activation link.", "status":False},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

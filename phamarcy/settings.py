@@ -96,7 +96,17 @@ DATABASES = {
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',  # Example: React development server
+    'http://localhost:8000',  # Example: React development server
     'https://example.com',    # Example: Production domain
+    "https://pharmexxx.pythonanywhere.com"
+
+    # "https://localhost:3000"
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Add your React app's URL here
+    "https://pharmexxx.pythonanywhere.com"
+    # ... other allowed origins ...
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -305,7 +315,9 @@ EMAIL_HOST_PASSWORD = "ekijurvfuwpvhyhh"
 SENDER_EMAIL = "moosaabdullahi45@gmail.com"
 
 
-BASE_URL = 'http://localhost:8000'
+# BASE_URL = 'http://localhost:3000'
+BASE_URL = "https://pharmexxx.pythonanywhere.com"
+
 
 
 SIMPLE_JWT = {
