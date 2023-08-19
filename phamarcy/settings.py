@@ -316,7 +316,7 @@ SENDER_EMAIL = "moosaabdullahi45@gmail.com"
 
 
 # BASE_URL = 'http://localhost:3000'
-BASE_URL = "https://pharmexxx.pythonanywhere.com"
+BASE_URL = "https://pharmacy-mauve.vercel.app"
 
 
 
