@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.models import (
     Category,
+    Event,
     Order,
     Prescription,
     Profile,
@@ -393,3 +394,8 @@ class GetDrug(APIView):
             return Response(data=drug, status=status.HTTP_200_OK)
         return Response(data=[], status=status.HTTP_404_NOT_FOUND)
 
+
+class GetEventsAPIView(APIView):
+    def get(self, request):
+        events = Event.get_events()
+        return Response({'events': events})

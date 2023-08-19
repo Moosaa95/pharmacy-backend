@@ -354,6 +354,117 @@ class Drug(models.Model):
                 dru['image'] = None
         return drug
 
+
+class Event(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    location = models.CharField(max_length=255)
+    sold_out = models.PositiveIntegerField(default=0)
+    image = CloudinaryField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    pharmacy_profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, blank=True, null=True)
+    sold_out = models.PositiveIntegerField(default=0)
+    drug = models.ForeignKey("Drug", on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.title
+    
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+    
+    
+
+    @classmethod
+    def get_fields(cls):
+        fields = [
+            "id",
+            "title",
+            "description",
+            "start_date",
+            "end_date",
+            "location",
+            "sold_out",
+            "image",
+            "created_at",
+            "pharmacy_profile__image",
+            "sold_out",
+            "drug__name",
+            "drug__discount_price",
+            "drug__original_price"
+
+        ]
+        return fields
+
+
+    # @classmethod
+    # def get_drug(cls, drug_id):
+    #     drug = cls.objects.filter(id=drug_id).values(*cls.get_fields())
+    #     for dru in drug:
+    #         if dru['image'] and hasattr(dru['image'], 'url'):
+    #             dru['image'] = dru['image'].url
+    #         else:
+    #             dru['image'] = None
+    #     return drug
+    @classmethod
+    def get_events(cls):
+        # events = cls.objects.select_related('drug').all()
+        # event_list = []
+
+        # for event in events:
+        #     print(event, 'eve', event.image.url)
+        #     event_dict = {
+        #         "title": event.title,
+        #         "description": event.description,
+        #         "start_date": event.start_date,
+        #         "end_date": event.end_date,
+        #         "location": event.location,
+        #         "sold_out": event.sold_out,
+        #         "image": event.image.url if event.image and hasattr(event['image'], 'url') else None,
+        #         "created_at": event.created_at,
+        #         "pharmacy_profile": event.pharmacy_profile,
+        #         "sold_out": event.sold_out,
+        #         "drug_name": event.drug.name if event.drug else None,
+        #         # Add other fields you want here
+        #     }
+        #     event_list.append(event_dict)
+        event_list = cls.objects.all().values(*cls.get_fields()).order_by("-created_at")
+        for dru in event_list:
+            if dru['image'] and hasattr(dru['image'], 'url'):
+                dru['image'] = dru['image'].url
+                dru['pharmacy_profile__image'] = dru['pharmacy_profile__image'].url
+            else:
+                dru['image'] = None
+                dru['pharmacy_profile__image'] = None
+
+        return event_list
+    
+
+    # @classmethod
+    # def get_events(cls):
+    #     events = cls.objects.select_related('drug').annotate(
+    #         drug_name=F('drug__name'),
+    #         image_url=F('image__url')
+    #     ).values(
+    #         'title',
+    #         'description',
+    #         'start_date',
+    #         'end_date',
+    #         'location',
+    #         'sold_out',
+    #         'image_url',
+    #         'created_at',
+    #         'pharmacy_profile',
+    #         'sold_out',
+    #         'drug_name',
+    #         # Add other fields you want here
+    #     )
+
+    #     return list(events)
+
 # class Images(models.Model):
 #     name = models.CharField(max_length=255)
 #     public_id = models.CharField(max_length=255, null=False, blank=False)

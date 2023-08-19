@@ -17,7 +17,8 @@ from accounts.views import (RegisterUser,
                             GetUser,
                             GetOrder,
                             ChangePasswordAPIView,
-                            GetDrug
+                            GetDrug,
+                            GetEventsAPIView
                             )
 
 
@@ -45,6 +46,7 @@ urlpatterns = [
     path('get-profile/', GetUser.as_view(), name='get-profile'),
     path('get-order/', GetOrder.as_view(), name='get-order'),
     path('get-drug/', GetDrug.as_view(), name='get-drug'),
+    path('get-events/', GetEventsAPIView.as_view(), name='get-drug'),
     path('change-password/', ChangePasswordAPIView.as_view(), name='change-password'),
 
 ]

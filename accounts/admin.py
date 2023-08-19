@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (UserBase, Profile, Category,
-                      Drug,  State, LGA, Order, Prescription)
+                      Drug,  State, LGA, Order, Prescription, Event)
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -43,3 +43,8 @@ class LgaAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ("userbase", "status", "total_price", "paid_at")
+
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ("title", )
